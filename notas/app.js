@@ -18,6 +18,7 @@ async function initIA() {
     estadoEl.innerText = "⏳ Cargando modelo de IA...";
     extractor = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
     estadoEl.innerText = "✅ Modelo listo y cargado localmente en tu navegador.";
+    await verificarYRepararNotas();
   } catch (error) {
     console.error(error);
     estadoEl.innerText = "❌ Error al cargar el modelo.";
@@ -29,7 +30,21 @@ async function obtenerEmbedding(texto) {
   return Array.from(output.data);
 }
 
+async function verificarYRepararNotas() {
+  let modificado = false;
+  for (let nota of notas) {
+    if (!nota.vector) {
+      nota.vector = await obtenerEmbedding(nota.texto);
+      modificado = true;
+    }
+  }
+  if (modificado) {
+    localStorage.setItem('mis_notas', JSON.stringify(notas));
+  }
+}
+
 function calcularSimilitud(vecA, vecB) {
+  if (!vecA || !vecB) return 0;
   let dotProduct = 0;
   let normA = 0;
   let normB = 0;
@@ -123,7 +138,7 @@ window.manejarBusqueda = async function() {
   listaResultadosBusqueda.innerHTML = '<p style="color: #666; text-align: center;">Analizando significado...</p>';
 
   const vectorConsulta = await obtenerEmbedding(consulta);
-  const UMBRAL_MINIMO = 0.45; 
+  const UMBRAL_MINIMO = 0.25; 
 
   const resultados = notas
     .map(nota => {
