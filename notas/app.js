@@ -41,7 +41,6 @@ function calcularSimilitud(vecA, vecB) {
   return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
 }
 
-// Guardar nota
 window.guardarNota = async function() {
   const textoInput = document.getElementById('textoNota');
   const texto = textoInput.value.trim();
@@ -67,7 +66,6 @@ window.guardarNota = async function() {
   }
 };
 
-// Cambiar entre pestañas de navegación (Crear / Ver todas)
 window.cambiarVista = function(vista) {
   document.getElementById('busqueda').value = '';
 
@@ -101,7 +99,6 @@ function renderizarTodasLasNotas() {
   });
 }
 
-// Búsqueda semántica con filtro de alta relevancia
 window.manejarBusqueda = async function() {
   const consulta = document.getElementById('busqueda').value.trim();
 
@@ -126,8 +123,6 @@ window.manejarBusqueda = async function() {
   listaResultadosBusqueda.innerHTML = '<p style="color: #666; text-align: center;">Analizando significado...</p>';
 
   const vectorConsulta = await obtenerEmbedding(consulta);
-
-  // UMBRAL MÍNIMO AUMENTADO (45% para filtrar coincidencias débiles/falsas)
   const UMBRAL_MINIMO = 0.45; 
 
   const resultados = notas
