@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notas Inteligentes - Búsqueda Semántica</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="container">
+    <!-- Barra de buscador superior fija -->
+    <div class="search-header">
+      <input type="text" id="busqueda" placeholder="🔍 Escribe para buscar un concepto..." oninput="manejarBusqueda()">
+    </div>
+
+    <!-- Menú de navegación entre vistas -->
+    <div class="nav-tabs">
+      <button onclick="cambiarVista('crear')" id="btnCrear" class="tab-btn activo">Crear Nota</button>
+      <button onclick="cambiarVista('todas')" id="btnTodas" class="tab-btn">Ver Todas las Notas</button>
+    </div>
+
+    <!-- Estado de carga de la IA -->
+    <div id="estado" class="badge">Iniciando aplicación...</div>
+
+    <!-- VISTA 1: Página principal para agregar notas -->
+    <div id="vistaCrear" class="vista">
+      <div class="card">
+        <h3>Nueva Nota o Pendiente</h3>
+        <textarea id="textoNota" placeholder="Escribe aquí tu nota..."></textarea>
+        <button onclick="guardarNota()">Guardar Nota</button>
+      </div>
+    </div>
+
+    <!-- VISTA 2: Apartado para ver todas las notas -->
+    <div id="vistaTodas" class="vista" style="display: none;">
+      <h3>📚 Todas mis notas guardadas</h3>
+      <div id="listaTodasNotas"></div>
+    </div>
+
+    <!-- VISTA 3: Resultados de búsqueda (Se activa al buscar) -->
+    <div id="vistaBusqueda" class="vista" style="display: none;">
+      <h3 id="tituloBusqueda">Resultados de la búsqueda</h3>
+      <div id="listaResultadosBusqueda"></div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
